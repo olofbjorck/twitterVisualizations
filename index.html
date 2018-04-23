@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+    	<meta charset="utf-8">
+    	<meta name="author" content="Olof Björck">
+    	<title>Home</title>
+
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+
+  	</head>
+
+  	<body>
+
+
+		<div class="start">
+
+			<h2>The visualisations:</h1>
+			<ul class="start">
+				<li><a href="./html/userTimeline.html">User Timeline</a></li>
+				<li><a href="./html/tree.html">Tweet Transmission Tree</a></li>
+				<li><a href="./html/graph.html">Graph</a></li>
+			</ul>
+
+		</div>
+
+		<hr>
+
+		<div class="text" id="indexText"></div>
+
+	<!-- Include text content -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+			$("#indexText").load("./text/indexText.html");
+		});
+	</script>
+
+  	</body>
+
+</html>

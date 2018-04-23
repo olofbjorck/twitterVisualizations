@@ -1,0 +1,23 @@
+@import "index.css";
+
+.title {
+	fill: black;
+	font-family: sans-serif;
+	text-anchor: middle;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+.zoom {
+	cursor: move;
+	fill: none;
+	pointer-events: fill;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.visible {
+	visibility: visible;
+}
