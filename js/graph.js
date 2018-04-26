@@ -1,6 +1,11 @@
 /*******************************************************************************
 
-This visualisation is a graph of a Twitter Tree.
+(Goal: This visualisation is a graph of a Twitter Tree.) As of right now, it's
+basically just a copy paste of Mike Bostocks force directed graph:
+
+https://bl.ocks.org/mbostock/4062045
+
+// TODO: Modify the code to work with twitter data.
 
 *******************************************************************************/
 
