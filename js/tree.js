@@ -10,13 +10,14 @@ Contained in the visualisation is, for each user:
 
 *******************************************************************************/
 
-// TODO: Window resize doesn't work if zoom has been used.
 // TODO: Set range on data input
+// TODO: Add search option
+// TODO: Fix Twitter timeline pop up on click
 
 /*
 Define our file name
 */
-var filename = "TTT-data.csv";
+var filename = "twitter_network.csv";
 var filepath = "../data/" + filename;
 
 /*
@@ -33,13 +34,7 @@ function id(d) { return d.UserID; }
 Create our user of interest
 */
 var userOfInterest = {
-	//552630315,Jessica Rosencrantz,Rosencrantz_J,3888,181,45
-	UserID: "552630315",
-	UserName: "Jessica Rosencrantz",
-	ScreenName: "Rosencrantz_J",
-	followersCount: "3888",
-	NrOfRetweets: "181",
-	NrOfRetweeters: "45"
+	UserID: "123456789", // Add the user of interest if wanted
 }
 
 /*
@@ -56,6 +51,7 @@ var circleMinRadius = 0;
 var circleEnlargeConstant = 2;
 var circleIdleOpacity = 0.2;
 var circleActiveOpacity = 1;
+var circleClickedStrokeWidth = 4;
 
 /*
 Create svg and specify display sizes
@@ -82,14 +78,9 @@ var svg = div.append('svg')
 		.attr("transform",
 			"translate(" + margin.left + "," + margin.top + ")");
 
-/*******************************************************************************
-*/
-/*COPY FROM INSIDE RENDER FUNCTION*/
-
 /*
 Create title
 */
-
 var title = svg.append("text")
 	.attr("class", "title") // style in css
 	.attr("x", width / 2)
@@ -168,20 +159,12 @@ var zoom = d3.zoom()
 	.on("zoom", zoomed);
 
 // Create zoomable area
-var zoomArea = svg.append("rect")
+var zoomView = svg.append("rect")
 	.attr("class", "zoom")
   	.attr("width", width)
   	.attr("height", height)
-	//.attr("transform", "translate(" + 0 + "," + 0 + ")")
-	.call(zoom);
-
-// TODO: Fix this. Should display based on data max/min
-xScale.domain([1, 10000])
-//gXAxis.call(xAxis)
-yScale.domain([0, 350])
-//gYAxis.call(yAxis)
-radiusScale.domain([1, 100000])
-colorScale.domain([1, 10000])
+	.call(zoom)
+	.on("click", clickView)
 
 // Add data. Each row represented as a "g" of class "node" inside the svg.
 var data = d3.csv(filepath, function(error, data) {
@@ -189,91 +172,37 @@ var data = d3.csv(filepath, function(error, data) {
 	if (error) { console.log(error) }
 
 	// TODO: Fix this. Should display based on data max/min
-	/*xScale.domain([1, 10000])
+	xScale.domain([1, 10000])
 	gXAxis.call(xAxis)
 	yScale.domain([0, 350])
 	gYAxis.call(yAxis)
 	radiusScale.domain([1, 100000])
-	colorScale.domain([1, 10000])*/
+	colorScale.domain([1, 10000])
 
-	// Display the data
+	// Enter the data
 	var nodes = svg.append("g").selectAll("g")
 		.data(data)
-		.enter() // Enter the data
+		.enter()
 
 	// Create circles to display the data
 	nodes.append("circle")
 		.call(setCircleAttributes)
 		.call(setCircleMouseEvents)
-		.sort(orderLargestBelow) // sort dataframe on radius size first instead?
+		.sort(orderLargestBelow)
 
 	// Create tooltip that shows username
 	nodes.append("text")
 		.call(setTextAttributes)
 
-	// TODO: Add/overlay the user of interest
+	// Set appearance for user of interest
+	d3.select("#" + getCircleId(userOfInterest))
+		.attr("fill", "orange")
 
 });
 
-/*
-*******************************************************************************/
-
-/*
-Render the figure
-*/
-function render() {
-
-	// Set current width and height
-	width = window.innerWidth - margin.left - margin.right,
-	height = window.innerHeight - margin.top - margin.bottom;
-
-	// Resize SVG
-	div.select("svg")
-		.attr('width', width + margin.left + margin.right)
-		.attr('height', height + margin.top + margin.bottom)
-
-	// Render title
-	title.attr("x", width / 2)
-
-	// Render x-scale
-	xScale.range([0, width]);
-	gXAxis
-		.attr("transform", "translate(" + 0 + "," + height + ")")
-		.call(xAxis)
-
-	// Render x-axis label.
-	xAxisLabel
-	    .attr("x", width)
-	    .attr("y", height - 6)
-
-	// Render y-scale
-	yScale.range([height, 0]);
-	gYAxis.call(yAxis)
-
-	// Render zoomable area
-	zoomArea
-	  	.attr("width", width)
-	  	.attr("height", height)
-
-	d3.select("#inner-space").selectAll(".nodeCircle")
-		.call(setCirclePosition)
-
-	d3.select("#inner-space").selectAll(".nodeText")
-		.call(setTextPosition)
-
-	//zoomed()
-;
-}
-render() // Render works as long as zoom hasn't executed
-/*
-
-END OF RENDER
-
-*******************************************************************************/
-
-// Handle window resize
-window.addEventListener('resize', render);
-
+/**
+ * Set attributes for circles (Twitter account nodes).
+ */
 function setCircleAttributes(circle) {
 	circle
 		.attr("class", "nodeCircle")
@@ -281,46 +210,51 @@ function setCircleAttributes(circle) {
 		.attr("id", getCircleId)
 		.attr("opacity", circleIdleOpacity)
 		.attr("fill", function(d) { return colorScale(color(d)); })
+		.attr("stroke", "black")
+		.attr("stroke-width", 0)
 		.attr("r", function(d) { return radiusScale(radius(d)); })
-		.call(setCirclePosition)
+		.attr("cx", function(d) { return xScale(x(d)); })
+		.attr("cy", function(d) { return yScale(y(d)); })
 }
 
-function setCirclePosition(circle) {
-circle
-	.attr("cx", function(d) { return xScale(x(d)); })
-	.attr("cy", function(d) { return yScale(y(d)); })
-}
-
+/**
+ * Set mouse events for circles.
+ */
 function setCircleMouseEvents(circle) {
 	circle
 		// Add tooltip and enlarge circle on mouse hover
 		.on("mouseover", mouseoverCircle)
 		// Remove tooltip and restore circle on mouseout
 		.on("mouseout", mouseoutCircle)
+		// Display timeline on click
+		.on("click", clickCircle)
 }
 
+/**
+ * Set attributes for tooltip (showing screen name) text.
+ */
 function setTextAttributes(text) {
 	text
 		.attr("class", "hidden nodeText") // Set class to hidden upon creation
 		.attr("data-id", id)
 		.attr("id", getTextId)
-		//.attr("dx", 0)
+		.attr("x", function(d) { return xScale(x(d)); })
+		.attr("y", function(d) { return yScale(y(d)); })
 		.attr("dy", function(d) { return - (circleMaxRadius * circleEnlargeConstant * 1.5); })
 		.attr("text-anchor", "beginning")
-		.call(setTextPosition)
 		.text(function(d) { return name(d); })
 }
 
-function setTextPosition(text) {
-text
-	.attr("x", function(d) { return xScale(x(d)); })
-	.attr("y", function(d) { return yScale(y(d)); })
-}
-
+/**
+ * Order so that largest circle gets placed deepest.
+ */
 function orderLargestBelow(a, b) {
 	return radius(b) - radius(a);
 }
 
+/**
+ * Handle mouse hover on circle. Display circle's screen name.
+ */
 function mouseoverCircle() {
 
 	// Get circle
@@ -365,9 +299,6 @@ function zoomed() {
 	var new_xScale = d3.event.transform.rescaleX(xScale);
 	var new_yScale = d3.event.transform.rescaleY(yScale);
 
-// MAYBE FIX WITH A CURRENT_AXIS? Instead of creating a new axis in zoomed,
-// have one that keeps track of the resized axis
-
 	// Display new axes
   	gXAxis.call(xAxis.scale(new_xScale));
 	gYAxis.call(yAxis.scale(new_yScale));
@@ -382,5 +313,47 @@ function zoomed() {
 		.attr("x", function(d) { return new_xScale(x(d)); })
 		.attr("y", function(d) { return new_yScale(y(d)); })
 
-render()
 };
+
+/**
+ * Handle click on zoomable area. That is, handle click outside a node which
+ * is considered a deselecting click => deselect previously clicked node
+ * and remove displayed tweets.
+ */
+function clickView() {
+
+	// Remove clicked status on clicked nodes
+	d3.selectAll(".clicked")
+		.attr("stroke-width", "0")
+		.classed("clicked", false)
+
+	// Remove timeline
+	document.getElementById("tweet").innerHTML = ""
+}
+
+/**
+ * Handle click on a tweet circle. Display the clicked tweet and let the tweet
+ * appear selected by adding a stroke to it.
+ */
+function clickCircle(d) {
+
+	// Remove results from old click
+	clickView();
+
+	// Add stroke width and set clicked class
+	d3.select(this)
+		.attr("stroke-width", circleClickedStrokeWidth)
+		.classed("clicked", true);
+
+	// Display tweet
+    twttr.widgets.createTimeline(
+		{
+    		sourceType: "profile",
+    		userId: id(d)
+  		},
+		document.getElementById("tweet"), // Tweet div
+		{
+    		height: height
+  		}
+	)
+}

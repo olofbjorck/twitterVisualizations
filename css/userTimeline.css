@@ -55,13 +55,6 @@ path, line {
 	font-size: 1em;
 }
 
-.visualization {
-	width: auto;
-	height: auto;
-	position: relative;
-	align: center;
-}
-
 #userTimelineVisualizationDiv {
 	width: auto;
 	height: auto;

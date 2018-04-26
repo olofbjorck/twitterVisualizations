@@ -32,17 +32,12 @@ div.text {
 }
 
 /*
-Footer
+For visualizations
+*/
 
-
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-	height: 5%;
-    width: 100%;
-    background-color: white;
-    color: black;
-    text-align: left;
-	border-top: 1px solid rgba(0,0,0,0.12);
-}*/
+.visualization {
+	width: auto;
+	height: auto;
+	position: relative;
+	align: center;
+}

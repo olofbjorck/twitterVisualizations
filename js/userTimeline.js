@@ -11,8 +11,8 @@ Contained in the visualisation is:
 *******************************************************************************/
 
 // Specify file name.
-var filename = "filename.csv";
-var filepath = "../data/" + filename; 
+var filename = "twitter_user.csv";
+var filepath = "../data/" + filename;
 
 // TODO: Create accessors that acces data in the csv-file instead of
 // accessing csv-column names in the middle of the code
@@ -474,5 +474,4 @@ function clickTweet(d) {
 
 	// Display tweet
     twttr.widgets.createTweet(d.CurrentTwID, tweetDiv)
-	//twttr.widgets.createTweet(d.OriginalT)
 }

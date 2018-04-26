@@ -21,3 +21,10 @@
 .visible {
 	visibility: visible;
 }
+
+#tweet {
+	position: absolute;
+	float: right;
+	left: 80%;
+	height:100%;
+}
