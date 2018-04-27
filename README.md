@@ -10,20 +10,28 @@ Requirements: [Node](https://nodejs.org/en/) to run the web server.
 
 From the command line:
 
-1. Download this repository
+1. Download the repository:
+
+
 `
 git clone https://github.com/olofbjorck/twitterVisualizations.git
 `
 
-2. Navigate to the files
+2. Navigate to the files:
+
+
 `
 cd twitterVisualizations
 `
 
-3. Start the web server (this is where Node is required)
+3. Start the web server (this is where Node is required):
+
+
 `
 node server.js
 `
 
-4. Open the webpage in a browser: http://localhost:8080/
-Note: I've only used and tested it in Chrome.
+4. Open the webpage in a browser: http://localhost:8080/.
+
+
+**Note:** I've only used and tested it in Chrome.
