@@ -36,7 +36,13 @@ From the command line:
     **Note:** I've only used and tested it in Chrome.
     
     
-If that's working, we're set to add data. In the `/data/` folder, add the user of interest data and the Twitter network data (the graph isn't working yet). Then, in `userTimeline.js` and in `tree.js`, make sure the filenames are correct.
+If that's working, we're set to add data. If there's no `/data` folder in the `twitterVisualizations` folder, create one by (while located in the `twitterVisualizations` folder):
+
+`
+$ mkdir data
+`
+
+In the `/data/` folder, add the user of interest data and the Twitter network data (the graph isn't working yet). Then, in `userTimeline.js` and in `tree.js`, make sure the filenames are correct.
 
 
 # Data format
