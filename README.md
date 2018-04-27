@@ -31,5 +31,25 @@ From the command line:
 
 4. Open the webpage in a browser: http://localhost:8080/.
 
-
     **Note:** I've only used and tested it in Chrome.
+    
+    
+If that's working, we're set to add data. In the `/data/` folder, add the user of interest data and the Twitter network data (the graph isn't working yet). Then, in `userTimeline.js` and in `tree.js`, make sure the filenames are correct.
+
+
+# Data format
+
+Note that the code expects csv-files with column names generated from Project MEP code (not all columns are needed):
+
+
+`userTimelineData.csv`:
+
+|   CurrentTweetDate|       CurrentTwID|CreationDateOfOrgTwInRT|OriginalTwIDinRT|CreationDateOfOrgTwInQT|OriginalTwIDinQT|OriginalTwIDinReply|CPostUserId|  userCreatedAtDate|OPostUserIdinRT|OPostUserIdinQT|OPostUserIdinReply|  CPostUserName|OPostUserNameinRT|OPostUserNameinQT|    CPostUserSN|OPostUserSNinRT|OPostUserSNinQT|OPostUserSNinReply|favouritesCount|followersCount|friendsCount|isVerified|isGeoEnabled|        CurrentTweet|UMentionRTiD|UMentionRTsN|UMentionQTiD|UMentionQTsN|UMentionASiD|   UMentionASsN|URLs|hashTags|     TweetType|    MentionType|Weight|
+
+
+
+`treeData.csv`:
+
+|   UserID|ScreenName|followersCount|NrOfRetweets|NrOfRetweeters|
+
+
