@@ -36,7 +36,7 @@ From the command line:
     **Note:** I've only used and tested it in Chrome.
     
     
-If that's working, we're set to add data. If there's no `/data` folder in the `twitterVisualizations` folder, create one by (while located in the `twitterVisualizations` folder):
+If that's working, we're set to add data. If there's no `/data/` folder in the `twitterVisualizations` folder, create one by (while located in the `twitterVisualizations` folder):
 
 `
 $ mkdir data
