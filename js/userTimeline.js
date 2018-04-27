@@ -8,12 +8,13 @@ Contained in the visualisation is:
  - A search function to search Tweets
  - A click option to view the original Tweet on Twitter
 
-// TODO: Change csv to json. Tweets mess up when they contain a comma (,).
+// TODO: 	Change csv to json. Tweets mess up when they contain a comma (,)
+ 			making them appear weird and not appear in search		
 
 *******************************************************************************/
 
 // Specify file name.
-var filename = "user.csv";
+var filename = "raaz_data.csv";
 var filepath = "../data/" + filename;
 
 // TODO: Create accessors that acces data in the csv-file instead of
