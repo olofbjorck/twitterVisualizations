@@ -13,20 +13,20 @@ From the command line:
 
 1. Download the repository:
 
-    `console
-    git clone https://github.com/olofbjorck/twitterVisualizations.git
+    `
+    $ git clone https://github.com/olofbjorck/twitterVisualizations.git
     `
 
 2. Navigate to the files:
 
-    `console
-    cd twitterVisualizations
+    `
+    $ cd twitterVisualizations
     `
 
 3. Start the web server (this is where Node is required):
 
-    `console
-    node server.js
+    `
+    $ node server.js
     `
 
 4. Open the webpage in a browser: 
