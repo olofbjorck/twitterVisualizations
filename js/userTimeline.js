@@ -11,7 +11,7 @@ Contained in the visualisation is:
 *******************************************************************************/
 
 // Specify file name.
-var filename = "raaz_data.csv";
+var filename = "twitter_user.csv";
 var filepath = "../data/" + filename;
 
 // TODO: Create accessors that acces data in the csv-file instead of
