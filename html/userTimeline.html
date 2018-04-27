@@ -25,10 +25,17 @@
 			<div id="tweet"></div>
 		</div>
 
-		<div class="text">
-			<h1>Description</h1>
-			<p>Goes here</p>
-		</div>
+		<hr>
+
+		<div class="text" id="indexText"></div>
+
+		<!-- Include text content -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$("#indexText").load("../../text/userTimelineText.html");
+			});
+		</script>
 
 		<script sync src="https://platform.twitter.com/widgets.js"></script>
 		<script src="https://d3js.org/d3.v4.min.js"></script>

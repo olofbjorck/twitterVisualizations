@@ -8,10 +8,12 @@ Contained in the visualisation is:
  - A search function to search Tweets
  - A click option to view the original Tweet on Twitter
 
+// TODO: Change csv to json. Tweets mess up when they contain a comma (,).
+
 *******************************************************************************/
 
 // Specify file name.
-var filename = "twitter_user.csv";
+var filename = "user.csv";
 var filepath = "../data/" + filename;
 
 // TODO: Create accessors that acces data in the csv-file instead of
@@ -26,7 +28,7 @@ var margin = {
 	},
 	width = window.innerWidth - margin.left - margin.right,
 	height = window.innerHeight - margin.top - margin.bottom
-		- 0.05 * window.innerHeight; // Compensate for searchDiv
+		- 58; // Compensate for searchDiv
 
 // Get div.
 var div = d3.select("#userTimelineVisualizationDiv");
@@ -70,7 +72,7 @@ svg.append("text")
 	.attr("class", "title") // style in css
 	.attr("x", width / 2)
 	.attr("y", margin.top)
-	.text("Historic Twitter data from " + filename);
+	.text("User Tweets from " + filename);
 
 // Create x-scale and set x-range.
 var xScale = d3.scaleTime()

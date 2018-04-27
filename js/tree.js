@@ -17,7 +17,7 @@ Contained in the visualisation is, for each user:
 /*
 Define our file name
 */
-var filename = "twitter_network.csv";
+var filename = "tree.csv";
 var filepath = "../data/" + filename;
 
 /*
@@ -85,7 +85,7 @@ var title = svg.append("text")
 	.attr("class", "title") // style in css
 	.attr("x", width / 2)
 	.attr("y", 0)
-	.text("Overview of Twitter network in " + filename);
+	.text("Twitter network in " + filename);
 
 /*
 Create x-axis

@@ -36,6 +36,10 @@
 	width: 20%;
 }
 
+#searchDiv {
+	height: 20px;
+}
+
 .highlight {
   background-color: yellow;
 }
