@@ -13,15 +13,15 @@ From the command line:
 
 1. Download the repository:
 
-  `
-  git clone https://github.com/olofbjorck/twitterVisualizations.git
-  `
+⋅⋅⋅`
+    git clone https://github.com/olofbjorck/twitterVisualizations.git
+   `
 
 2. Navigate to the files:
 
-  `
-  cd twitterVisualizations
-  `
+⋅⋅⋅`
+    cd twitterVisualizations
+   `
 
 3. Start the web server (this is where Node is required):
 
