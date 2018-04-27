@@ -11,7 +11,7 @@ Contained in the visualisation is:
 *******************************************************************************/
 
 // Specify file name.
-var filename = "twitter_user.csv";
+var filename = "raaz_data.csv";
 var filepath = "../data/" + filename;
 
 // TODO: Create accessors that acces data in the csv-file instead of
@@ -45,7 +45,6 @@ var searchedStr = "";
 
 // Create zoom object. Zooms x-axis.
 var zoom = d3.zoom()
-	.scaleExtent([0.7, 10000000]) // Can zoom out to 0.7 and in to 10000000
 	.on("zoom", zoomed);
 
 // Create zoomable area. Basically just an overlaid rectangle.
