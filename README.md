@@ -39,17 +39,19 @@ If that's working, we're set to add data. In the `/data/` folder, add the user o
 
 # Data format
 
-Note that the code expects csv-files with column names generated from Project MEP code (not all columns are needed):
+Note that the code expects csv-files with column names generated from Project MEP code:
 
 
-`userTimelineData.csv`:
+`userTimelineData.csv`: (not all columns are needed)
 
-|   CurrentTweetDate|       CurrentTwID|CreationDateOfOrgTwInRT|OriginalTwIDinRT|CreationDateOfOrgTwInQT|OriginalTwIDinQT|OriginalTwIDinReply|CPostUserId|  userCreatedAtDate|OPostUserIdinRT|OPostUserIdinQT|OPostUserIdinReply|  CPostUserName|OPostUserNameinRT|OPostUserNameinQT|    CPostUserSN|OPostUserSNinRT|OPostUserSNinQT|OPostUserSNinReply|favouritesCount|followersCount|friendsCount|isVerified|isGeoEnabled|        CurrentTweet|UMentionRTiD|UMentionRTsN|UMentionQTiD|UMentionQTsN|UMentionASiD|   UMentionASsN|URLs|hashTags|     TweetType|    MentionType|Weight|
+| CurrentTweetDate | CurrentTwID | CreationDateOfOrgTwInRT | OriginalTwIDinRT | CreationDateOfOrgTwInQT | OriginalTwIDinQT | OriginalTwIDinReply | CPostUserId | userCreatedAtDate | OPostUserIdinRT | OPostUserIdinQT | OPostUserIdinReply | CPostUserName | OPostUserNameinRT | OPostUserNameinQT | CPostUserSN | OPostUserSNinRT | OPostUserSNinQT | OPostUserSNinReply | favouritesCount | followersCount | friendsCount | isVerified | isGeoEnabled | CurrentTweet | UMentionRTiD | UMentionRTsN | UMentionQTiD | UMentionQTsN | UMentionASiD | UMentionASsN | URLs | hashTags | TweetType | MentionType | Weight |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 
 
 `treeData.csv`:
 
-|   UserID|ScreenName|followersCount|NrOfRetweets|NrOfRetweeters|
+| UserID | ScreenName | followersCount | NrOfRetweets | NrOfRetweeters |
+| --- | --- | --- | --- | --- |
 
 
