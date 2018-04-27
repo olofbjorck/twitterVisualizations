@@ -31,7 +31,7 @@ From the command line:
 
 4. Open the webpage in a browser: 
     
-    http://localhost:8080/.
+    http://localhost:8080/
 
     **Note:** I've only used and tested it in Chrome.
     
