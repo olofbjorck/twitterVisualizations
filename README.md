@@ -1,8 +1,8 @@
 # Description
 
-This is a part of my undergraduate project within Project MEP.
-
 This is a webpage with visualizations of Twitter data using D3. The visualizations allows for exploratory data analysis of Twitter data. However, no data is provided from me - you have to collect it with your own Twitter credentials to comply with data protection laws and rules.
+
+This is a part of my undergraduate project within [Project MEP](https://lamastex.github.io/scalable-data-science/sds/research/mep/).
 
 # Get started
 
@@ -41,7 +41,7 @@ If that's working, we're set to add data. In the `/data/` folder, add the user o
 
 # Data format
 
-Note that the code expects csv-files with column names generated from Project MEP code:
+Note that the code expects csv-files with column names generated from [Project MEP](https://lamastex.github.io/scalable-data-science/sds/research/mep/) code:
 
 
 `userTimelineData.csv`: (not all columns are needed)
