@@ -36,13 +36,7 @@ From the command line:
     **Note:** I've only used and tested it in Chrome.
     
     
-If that's working, we're set to add data. If there's no `/data/` folder in the `twitterVisualizations` folder, create one by (while located in the `twitterVisualizations` folder):
-
-`
-$ mkdir data
-`
-
-In the `/data/` folder, add the user of interest data and the Twitter network data (the graph isn't working yet). Then, in `userTimeline.js` and in `tree.js`, make sure the filenames are correct.
+If that's working, we're set to add data. Change the dummy_data files to real data and change the filenames in the JavaScript files.
 
 
 # Data format
@@ -50,16 +44,25 @@ In the `/data/` folder, add the user of interest data and the Twitter network da
 Note that the code expects csv-files with column names generated from [Project MEP](https://lamastex.github.io/scalable-data-science/sds/research/mep/) code:
 
 
-`userTimelineData.csv`: (not all columns are needed)
+`userTimeline.csv`: (not all columns are needed)
 
-| CurrentTweetDate | CurrentTwID | CreationDateOfOrgTwInRT | OriginalTwIDinRT | CreationDateOfOrgTwInQT | OriginalTwIDinQT | OriginalTwIDinReply | CPostUserId | userCreatedAtDate | OPostUserIdinRT | OPostUserIdinQT | OPostUserIdinReply | CPostUserName | OPostUserNameinRT | OPostUserNameinQT | CPostUserSN | OPostUserSNinRT | OPostUserSNinQT | OPostUserSNinReply | favouritesCount | followersCount | friendsCount | isVerified | isGeoEnabled | CurrentTweet | UMentionRTiD | UMentionRTsN | UMentionQTiD | UMentionQTsN | UMentionASiD | UMentionASsN | URLs | hashTags | TweetType | MentionType | Weight |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CurrentTweetDate | CurrentTwID | CurrentTweet | TweetType |
+| --- | --- | --- | --- |
 
 
-
-`treeData.csv`:
+`tree.csv`:
 
 | UserID | ScreenName | followersCount | NrOfRetweets | NrOfRetweeters |
 | --- | --- | --- | --- | --- |
+
+`links.csv`:
+
+| source | target | weight | 
+| --- | --- | --- |
+
+`nodes.csv`: (note: group is not implemented)
+
+| id | idNr | weight | group | 
+| --- | --- | --- | --- |
 
 
