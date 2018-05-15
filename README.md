@@ -1,6 +1,6 @@
 # Description
 
-This is a webpage with visualizations of Twitter data using D3. The visualizations allows for exploratory data analysis of Twitter data. However, no data is provided by me - you have to collect it with your own Twitter credentials to comply with data protection laws and rules.
+This is a webpage with visualizations of Twitter data using D3. The visualizations allows for exploratory data analysis of Twitter data. However, only dummy data is provided by me - you have to collect real data with your own Twitter credentials to comply with data protection laws and rules.
 
 This is a part of my undergraduate project within [Project MEP](https://lamastex.github.io/scalable-data-science/sds/research/mep/).
 
@@ -36,7 +36,7 @@ From the command line:
     **Note:** I've only used and tested it in Chrome.
     
     
-If that's working, we're set to add data. In the `/data/` folder, add the user of interest data and the Twitter network data (the graph isn't working yet). Then, in `userTimeline.js` and in `tree.js`, make sure the filenames are correct.
+If that's working, we're set to add data. Change the dummy files to real data and change the filenames in the JavaScript files.
 
 
 # Data format
@@ -44,16 +44,25 @@ If that's working, we're set to add data. In the `/data/` folder, add the user o
 Note that the code expects csv-files with column names generated from [Project MEP](https://lamastex.github.io/scalable-data-science/sds/research/mep/) code:
 
 
-`userTimelineData.csv`: (not all columns are needed)
+`userTimeline.csv`: 
 
-| CurrentTweetDate | CurrentTwID | CreationDateOfOrgTwInRT | OriginalTwIDinRT | CreationDateOfOrgTwInQT | OriginalTwIDinQT | OriginalTwIDinReply | CPostUserId | userCreatedAtDate | OPostUserIdinRT | OPostUserIdinQT | OPostUserIdinReply | CPostUserName | OPostUserNameinRT | OPostUserNameinQT | CPostUserSN | OPostUserSNinRT | OPostUserSNinQT | OPostUserSNinReply | favouritesCount | followersCount | friendsCount | isVerified | isGeoEnabled | CurrentTweet | UMentionRTiD | UMentionRTsN | UMentionQTiD | UMentionQTsN | UMentionASiD | UMentionASsN | URLs | hashTags | TweetType | MentionType | Weight |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CurrentTweetDate | CurrentTwID | CurrentTweet | TweetType |
+| --- | --- | --- | --- |
 
 
-
-`treeData.csv`:
+`tree.csv`:
 
 | UserID | ScreenName | followersCount | NrOfRetweets | NrOfRetweeters |
 | --- | --- | --- | --- | --- |
+
+`links.csv`:
+
+| source | target | weight | 
+| --- | --- | --- |
+
+`nodes.csv`: (group is not implemented and thus not really needed)
+
+| id | idNr | weight | group | 
+| --- | --- | --- | --- |
 
 
