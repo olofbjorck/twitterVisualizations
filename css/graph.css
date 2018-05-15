@@ -1,11 +1,35 @@
 @import "index.css";
+/*
+#graphVisualizationDiv {
+	height: auto;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}*/
+
+#graphVisualizationDiv {
+	width: auto;
+	height: auto;
+	position: relative;
+	align: center;
+}
 
 .links line {
 	stroke: #999;
-	stroke-opacity: 0.6;
+	stroke-opacity: 1;
 }
 
 .nodes circle {
-	stroke: #fff;
-	stroke-width: 1.5px;
+	fill: black;
+}
+
+circle.clicked {
+	fill: #1da1f2;
+}
+
+#tweet {
+	z-index: 100;
+	position: absolute;
+	left: 80%;
+	height: auto;
 }

@@ -10,14 +10,12 @@ Contained in the visualisation is, for each user:
 
 *******************************************************************************/
 
-// TODO: Set range on data input
 // TODO: Add search option
-// TODO: Fix Twitter timeline pop up on click
 
 /*
 Define our file name
 */
-var filename = "tree.csv";
+var filename = "dummy_tree.csv";
 var filepath = "../data/" + filename;
 
 /*
@@ -46,8 +44,8 @@ function getTextId(d) { return "text" + id(d); }
 /*
 Specify circle constants
 */
-var circleMaxRadius = 5;
-var circleMinRadius = 0;
+var circleMaxRadius = 8;
+var circleMinRadius = 3;
 var circleEnlargeConstant = 2;
 var circleIdleOpacity = 0.2;
 var circleActiveOpacity = 1;
@@ -72,6 +70,7 @@ var div = d3.select("#treeVisualizationDiv");
 
 // Create svg
 var svg = div.append('svg')
+	.attr("class", "visualization")
 	.attr('width', width + margin.left + margin.right)
 	.attr('height', height + margin.top + margin.bottom)
 	.append("g").attr("id", "inner-space")
@@ -142,7 +141,7 @@ var yAxisLabel = svg.append("text")
 Create scale for radius
 */
 var radiusScale = d3.scaleLog()
-	.base(2)
+	.base(10)
 	.range([circleMinRadius, circleMaxRadius])
 
 /*
@@ -171,13 +170,12 @@ var data = d3.csv(filepath, function(error, data) {
 
 	if (error) { console.log(error) }
 
-	// TODO: Fix this. Should display based on data max/min
-	xScale.domain([1, 10000])
+	xScale.domain([1, getMaxX(data)])
 	gXAxis.call(xAxis)
-	yScale.domain([0, 350])
+	yScale.domain([0, getMaxY(data)])
 	gYAxis.call(yAxis)
-	radiusScale.domain([1, 100000])
-	colorScale.domain([1, 10000])
+	radiusScale.domain([1, getMaxRadius(data)])
+	colorScale.domain([1, getMaxColor(data)])
 
 	// Enter the data
 	var nodes = svg.append("g").selectAll("g")
@@ -197,6 +195,7 @@ var data = d3.csv(filepath, function(error, data) {
 	// Set appearance for user of interest
 	d3.select("#" + getCircleId(userOfInterest))
 		.attr("fill", "orange")
+
 
 });
 
@@ -307,6 +306,8 @@ function zoomed() {
   	d3.selectAll(".nodeCircle")
 		.attr("cx", function(d) { return new_xScale(x(d)); })
 		.attr("cy", function(d) { return new_yScale(y(d)); })
+		// To force constant circle radius on zoom:
+		//.attr("r", function(d) { return d3.event.transform.scale(radiusScale(radius(d))).k; })
 
 	// Reposition texts
   	d3.selectAll(".nodeText")
@@ -356,4 +357,40 @@ function clickCircle(d) {
     		height: height
   		}
 	)
+}
+
+/**
+ * Returns the largest x-value in the data.
+ */
+function getMaxX(data) {
+
+	return Math.max(...data.map(d => x(d)));
+}
+
+/**
+ * Returns the largest y-value in the data.
+ */
+function getMaxY(data) {
+
+	return Math.max(...data.map(d => y(d)));
+}
+
+/**
+ * Returns the largest radius in the data.
+ */
+function getMaxRadius(data) {
+
+	return Math.max(...data.map(d => radius(d)));
+}
+
+/**
+ * Returns the "largest" color in the data.
+ */
+function getMaxColor(data) {
+
+	var maxColor = Math.max(...data.map(d => color(d)));
+	var cutOff = 10000;
+
+	if (maxColor > cutOff) return cutOff;
+	return maxColor;
 }

@@ -1,0 +1,38 @@
+<h1>Description</h1>
+
+<p>
+
+This is a graph visualization of a Twitter graph.
+
+Each circle represents a Twitter user (that is, a unique Twitter account).
+
+The radius of the user circle represents how many Retweets the user has within this specific Twitter network from small radius (fewest Retweets) to large radius (most Retweets).
+
+If you hover a user circle, the user screen name (as specified in the data) will appear by the user circle.
+
+The line thickness connecting user circles represents how many Retweets the user circle tuple tuple has between each other in total.
+
+Retweet direction is not accounted for.
+
+Connecting lines only appear if the user circle tuple has at least 15 Retweets.
+
+If you click on a user circle, the up-to-date user timeline will appear.
+
+You can click on the user timeline to be redirected to Twitter's web site and view the user.
+
+</p>
+
+
+<h2>Improvement ideas</h2>
+
+<ul>
+
+	<li>Speed up tooltip display. For example by custom tooltip.</li>
+	<li>Add a slider to select number of Retweets cut-off rate (currently 15). Small cut-off rate drastically decrease performance though.</li>
+	<li>Add a zoom to get rid of the large canvas.</li>
+	<li>Fix the rather bad performance.</li>
+	<li>Add a search for Twitter users function.</li>
+	<li>Color by group (this is kind of implemented but group data is needed).</li>
+	<li>Account for the Retweet direction.</li>
+
+</ul>

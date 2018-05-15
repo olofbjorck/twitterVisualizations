@@ -1,23 +1,13 @@
 @import "index.css";
 
-.ReTweet {
-	fill: lightblue;
+.tweet {
+	fill: #1da1f2;
+	stroke: black;
 	opacity: 0.5;
 }
 
-.ReplyTweet {
-	fill: lightblue;
-	opacity: 0.5;
-}
-
-.OriginalTweet {
-	fill: lightblue;
-	opacity: 0.8;
-}
-
-.QuotedTweet {
-	fill: lightblue;
-	opacity: 0.5;
+circle.clicked {
+	stroke-width: 5;
 }
 
 .searchedTweet {
@@ -66,22 +56,12 @@ path, line {
 	align: center;
 }
 
-.visualization {
-	font-family: sans-serif;
-}
-
 .title {
 	fill: black;
 	font-family: sans-serif;
 	text-anchor: middle;
 	text-align: center;
 	font-size: 1.5em;
-}
-
-.zoom {
-  cursor: move;
-  fill: none;
-  pointer-events: fill;
 }
 
 .searchField {

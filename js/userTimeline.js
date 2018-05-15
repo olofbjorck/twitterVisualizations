@@ -9,12 +9,12 @@ Contained in the visualisation is:
  - A click option to view the original Tweet on Twitter
 
 // TODO: 	Change csv to json. Tweets mess up when they contain a comma (,)
- 			making them appear weird and not appear in search		
+ 			making them appear weird and not appear in search
 
 *******************************************************************************/
 
 // Specify file name.
-var filename = "raaz_data.csv";
+var filename = "dummy_userTimeline.csv";
 var filepath = "../data/" + filename;
 
 // TODO: Create accessors that acces data in the csv-file instead of
@@ -22,20 +22,20 @@ var filepath = "../data/" + filename;
 
 // Specify display sizes.
 var margin = {
-		top: 0.05 * window.innerHeight,
+		top: 0.02 * window.innerHeight,
 		right: 0.15 * window.innerHeight,
-		bottom: 0.1 * window.innerHeight,
+		bottom: 0.15 * window.innerHeight,
 		left: 0.15 * window.innerHeight
 	},
 	width = window.innerWidth - margin.left - margin.right,
-	height = window.innerHeight - margin.top - margin.bottom
-		- 58; // Compensate for searchDiv
+	height = window.innerHeight - margin.top - margin.bottom - 50; // Compensate for searchDiv
 
 // Get div.
 var div = d3.select("#userTimelineVisualizationDiv");
 
 // Create svg.
 var svg = div.append('svg')
+	//.attr("class", "visualization")
 	.style("z-index", "-1")
 	.attr('width', width + margin.left + margin.right)
 	.attr('height', height + margin.top + margin.bottom)
@@ -73,7 +73,7 @@ svg.append("text")
 	.attr("class", "title") // style in css
 	.attr("x", width / 2)
 	.attr("y", margin.top)
-	.text("User Tweets from " + filename);
+	.text("Tweets from " + filename);
 
 // Create x-scale and set x-range.
 var xScale = d3.scaleTime()
@@ -81,8 +81,8 @@ var xScale = d3.scaleTime()
 
 // Create xAxis.
 var xAxis = d3.axisBottom(xScale)
-	.tickFormat(d3.timeFormat("%c")) // Set tick format date and time
-	.ticks(5); // have 5 ticks
+	.tickFormat(d3.timeFormat("%c")); // Set tick format date and time
+
 
 // Display x-axis.
 var gXAxis = svg.append("g")
@@ -122,13 +122,15 @@ var yScale = d3.scaleOrdinal()
 
 // Create y-axis.
 var yAxis = d3.axisLeft(yScale)
-	.tickValues(yTickValues); // Set y-axis tick values
+				.tickValues(yTickValues);
 
 // Display y-axis (and label) after circles are placed to put y-axis above the circles
 
 // Read data. Note: file needs to be chronologically structured so that
 // data[0] is newest and data[length - 1] is oldest
 var data = d3.csv(filepath, function(error, data) {
+
+	if (error) throw error;
 
 	// Create and display the x-axis
 	createAndDisplayXAxis(data);
@@ -153,8 +155,7 @@ var data = d3.csv(filepath, function(error, data) {
 				})
 				// Set circle radius
 	    		.attr("r", idleTweetRadius)
-				// Set stroke
-				.attr("stroke", "purple")
+				// Set stroke width to 0
 				.attr("stroke-width", "0")
 				// Set color by tweet type
 				.attr("class", function(d) {
@@ -184,6 +185,10 @@ var data = d3.csv(filepath, function(error, data) {
 	    .attr("transform", "rotate(-90)")
 	    .text("Type of Tweet");
 
+	// display x-axis
+	xAxis.ticks(5);
+	gXAxis.call(xAxis);
+
 	// Handle input search
 	d3.select("#searchInput").on("input",
 		function() {
@@ -203,7 +208,7 @@ function searchTweets(data) {
 	if (searchedStr.length > 2) {
 
 		// Loop through all rows
-		for (i = 0; i < data.length - 1; i++) {
+		for (i = 0; i < data.length; i++) {
 
 			// Get tweet text
 			var tweetText = data[i].CurrentTweet;
@@ -256,11 +261,6 @@ function createAndDisplayXAxis(data) {
 
 	// Set x-scale domain from newest and oldest date
 	xScale.domain([oldestDate, newestDate]);
-	// Link graphic to axis
-	gXAxis.call(xAxis);
-
-	// return the axis g element
-	return gXAxis;
 }
 
 /**
@@ -465,7 +465,7 @@ function clickTweet(d) {
 	clickView();
 
 	// Get tweet
-	var tweet = d3.select(this).attr("stroke-width", "10");
+	var tweet = d3.select(this)
 
 	// Set tweet to clicked
 	tweet.classed("clicked", true);

@@ -1,38 +1,15 @@
 /*******************************************************************************
 
-(Goal: This visualisation is a graph of a Twitter Tree.) As of right now, it's
-basically just a copy paste of Mike Bostocks force directed graph:
-
-https://bl.ocks.org/mbostock/4062045
-
-// TODO: Modify the code to work with twitter data.
+This visualisation is a graph of a Twitter network.
 
 *******************************************************************************/
 
-/*
-CREATE TEST DATA
-*/
-var graph =
-{
-	"nodes": [
-		{"id": 1, "followers": 10, "group": 1},
-    	{"id": 2, "followers": 20, "group": 1},
-    	{"id": 3, "followers": 30, "group": 2,},
-    	{"id": 4, "followers": 40, "group": 2,},
-		{"id": 5, "followers": 50, "group": 3},
-	],
-	"links": [
-    	{"source": 1, "target": 2, "weight": 1},
-		{"source": 1, "target": 3, "weight": 1},
-		{"source": 1, "target": 4, "weight": 1},
-		{"source": 1, "target": 5, "weight": 1},
-		{"source": 2, "target": 5, "weight": 1},
-		{"source": 2, "target": 1, "weight": 3}
-	]
-};
+var filepath_links = "../data/dummy_links.csv";
+var filepath_nodes = "../data/dummy_nodes.csv";
 
-// Specify file name
-var filename = "vik_lundberg.csv";
+var circleEnlargeConstant = 2;
+var circleClickedStrokeWidth = 5;
+var maxRadius = 10;
 
 // Specify display sizes
 var margin = {
@@ -48,78 +25,206 @@ var margin = {
 var div = d3.select("#graphVisualizationDiv");
 
 // Create svg
-var svg = div.append('svg')
-	.attr('width', width + margin.left + margin.right)
-	.attr('height', height + margin.top + margin.bottom)
+var svg = div.append("svg")
+	.attr("class", "visualization")
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
 	.append("g")
 		.attr("transform",
 			"translate(" + margin.left + "," + margin.top + ")");
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
+// Create zoom
+var zoom = d3.zoom()
+    .on("zoom", zoomed);
 
+// Create zoomable area
+var zoomView = svg.append("rect")
+	.attr("class", "zoom")
+  	.attr("width", width)
+  	.attr("height", height)
+	.on("click", clickView)
+	.call(zoom)
+
+// Create color scale
+//var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+// Create simulation
 var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
+    //.force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody().strength(-10))
+    .force("center", d3.forceCenter(width / 2, height / 2))
 
-/*d3.json(data, function(error, graph) {
-  if (error) throw error;*/
+// Create loading text
+var loading = svg.append("text")
+    .attr("y", height / 2)
+	.attr("x", width / 2)
+    .attr("text-anchor", "middle")
+    .text("Loading graph... \n Takes a couple of seconds");
 
-  var link = svg.append("g")
-      .attr("class", "links")
-    .selectAll("line")
-    .data(graph.links)
-    .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.weight); });
+// Read data
+d3.csv(filepath_links, function(error, links) {
+  if (error) throw error;
+	d3.csv(filepath_nodes, function(error, nodes) {
+		if (error) throw error;
 
-  var node = svg.append("g")
-      .attr("class", "nodes")
-    .selectAll("circle")
-    .data(graph.nodes)
-    .enter().append("circle")
-      .attr("r", 5)
-      .attr("fill", function(d) { return color(d.group); })
-      .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended));
+			// Filter links
+			var filteredLinks = links.filter(link => link.weight >= 15)
 
-  node.append("title")
-      .text(function(d) { return d.id; });
+			// Create links
+			var link = svg.append("g")
+				.attr("class", "links")
+			    .selectAll("line")
+			    .data(links)
+			    .enter().append("line")
+			    	.attr("stroke-width", function(d) { return Math.sqrt(d.weight / 1000); });
 
-  simulation
-      .nodes(graph.nodes)
-      .on("tick", ticked);
+			// Create nodes
+			var node = svg.append("g")
+				.attr("class", "nodes")
+				.selectAll("circle")
+			    .data(nodes)
+			    .enter().append("circle")
+					//.attr("fill", function(d) { return color(d.group); })
+				   	.attr("r", function(d) { return Math.sqrt(d.weight / 100) + 2 })
+					.on("mouseover", mouseoverCircle)
+					.on("mouseout", mouseoutCircle)
+					.on("click", clickCircle)
+			    	.call(d3.drag()
+			        	.on("start", dragstarted)
+			        	.on("drag", dragged)
+			        	.on("end", dragended));
 
-  simulation.force("link")
-      .links(graph.links);
+			// Add title as child to circle
+			node.append("title")
+				.text(function(d) { return d.id; });
 
-  function ticked() {
-    link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+			// Link nodes and links to the simulation
+			simulation
+				.nodes(nodes)
+				.on("tick", ticked)
+				.force('link', d3.forceLink(filteredLinks).id(function(d) { return d.id; }));
 
-    node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
-  }
-//});
+			// Updates for each simulation tick
+			function ticked() {
+				link
+					.attr("x1", function(d) { return d.source.x; })
+					.attr("y1", function(d) { return d.source.y; })
+					.attr("x2", function(d) { return d.target.x; })
+					.attr("y2", function(d) { return d.target.y; });
 
+				node
+					.attr("cx", function(d) { return d.x; })
+					.attr("cy", function(d) { return d.y; })
+			}
+
+			// Compute several steps before rendering
+			loading.remove(); // Remove loading text
+			for (var i = 0, n = 150; i < n; ++i) {
+				simulation.tick();
+			}
+
+	});
+});
+
+/**
+ * Handle mouse hover on circle. Enlarge circle.
+ */
+function mouseoverCircle() {
+
+	// Get circle
+	var circle = d3.select(this);
+
+	// Display activated circle
+	circle.attr("r", circle.attr("r") * circleEnlargeConstant);
+
+}
+
+/**
+ * Handle mouse out on circle. Resize circle.
+ */
+function mouseoutCircle() {
+
+	// Get circle
+	var circle = d3.select(this);
+
+	// Display idle circle
+	circle.attr("r", circle.attr("r") / circleEnlargeConstant);
+
+}
+
+/**
+ * Handle circle drag start.
+ */
 function dragstarted(d) {
-  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
+	if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+	d.fx = d.x;
+	d.fy = d.y;
 }
 
+/**
+ * Handle circle drag.
+ */
 function dragged(d) {
-  d.fx = d3.event.x;
-  d.fy = d3.event.y;
+	d.fx = d3.event.x;
+	d.fy = d3.event.y;
 }
 
+/**
+ * Handle circle drag end.
+ */
 function dragended(d) {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
+	if (!d3.event.active) simulation.alphaTarget(0);
+	d.fx = null;
+	d.fy = null;
+}
+
+/**
+ * Handle zoom. Zoom both x-axis and y-axis.
+ */
+function zoomed() {
+	d3.selectAll(".nodes").attr("transform", d3.event.transform)
+	d3.selectAll(".links").attr("transform", d3.event.transform)
+}
+
+/**
+ * Handle click on zoomable area. That is, handle click outside a node which
+ * is considered a deselecting click => deselect previously clicked node
+ * and remove displayed tweets.
+ */
+function clickView() {
+
+	// Remove clicked status on clicked nodes
+	d3.selectAll(".clicked")
+		.attr("stroke-width", "0")
+		.classed("clicked", false)
+
+	// Remove timeline
+	document.getElementById("tweet").innerHTML = ""
+}
+
+/**
+ * Handle click on a tweet circle. Display the clicked tweet and let the tweet
+ * appear selected by adding a stroke to it.
+ */
+function clickCircle(d) {
+
+	// Remove results from old click
+	clickView();
+
+	// Add stroke width and set clicked class
+	d3.select(this)
+		.attr("stroke-width", circleClickedStrokeWidth)
+		.classed("clicked", true);
+
+	// Display tweet
+    twttr.widgets.createTimeline(
+		{
+    		sourceType: "profile",
+    		userId: d.idNr
+  		},
+		document.getElementById("tweet"), // Tweet div
+		{
+    		height: height
+  		}
+	)
 }
