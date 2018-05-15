@@ -1,6 +1,6 @@
 # Description
 
-This is a webpage with visualizations of Twitter data using D3. The visualizations allows for exploratory data analysis of Twitter data. However, no data is provided by me - you have to collect it with your own Twitter credentials to comply with data protection laws and rules.
+This is a webpage with visualizations of Twitter data using D3. The visualizations allows for exploratory data analysis of Twitter data. However, only dummy data is provided by me - you have to collect real data with your own Twitter credentials to comply with data protection laws and rules.
 
 This is a part of my undergraduate project within [Project MEP](https://lamastex.github.io/scalable-data-science/sds/research/mep/).
 
@@ -36,7 +36,7 @@ From the command line:
     **Note:** I've only used and tested it in Chrome.
     
     
-If that's working, we're set to add data. Change the dummy_data files to real data and change the filenames in the JavaScript files.
+If that's working, we're set to add data. Change the dummy files to real data and change the filenames in the JavaScript files.
 
 
 # Data format
