@@ -44,7 +44,7 @@ If that's working, we're set to add data. Change the dummy_data files to real da
 Note that the code expects csv-files with column names generated from [Project MEP](https://lamastex.github.io/scalable-data-science/sds/research/mep/) code:
 
 
-`userTimeline.csv`: (not all columns are needed)
+`userTimeline.csv`: 
 
 | CurrentTweetDate | CurrentTwID | CurrentTweet | TweetType |
 | --- | --- | --- | --- |
@@ -60,7 +60,7 @@ Note that the code expects csv-files with column names generated from [Project M
 | source | target | weight | 
 | --- | --- | --- |
 
-`nodes.csv`: (note: group is not implemented)
+`nodes.csv`: (group is not implemented and thus not really needed)
 
 | id | idNr | weight | group | 
 | --- | --- | --- | --- |
